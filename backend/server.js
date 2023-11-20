@@ -1,6 +1,18 @@
+const express = require("express");
+const helmet = require("helmet");
 const dotenv = require("dotenv").config();
-const app = require("./app");
 
+const connectDB = require("./config/connectDb");
+connectDB();
+
+const app = express();
+app.use(helmet);
+
+app.use(
+  express.json({
+    limit: "10kb",
+  })
+);
 process.on("uncaughtException", (err) => {
   console.log("uncaught Exception");
   console.log(err.name, err.message);
