@@ -13,7 +13,7 @@ exports.errorHandler = (err, req, res, next) => {
       res.status(statusCode).json({
         status: "fail",
         title: "validation error",
-        message: "Validation failed",
+        message: err.message,
         stackTrace: err.stack,
       });
       break;
@@ -22,9 +22,18 @@ exports.errorHandler = (err, req, res, next) => {
       res.status(statusCode).json({
         status: "fail",
         title: "unauthorized",
-        message: "you are not authorized",
+        message: err.message,
         stackTrace: err.stack,
       });
       break;
+    case 403: {
+      res.status(statusCode).json({
+        status: "fail",
+        title: "Forbidden",
+        message: err.message,
+        stackTrace: err.stack,
+      });
+      break;
+    }
   }
 };
