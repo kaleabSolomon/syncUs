@@ -17,5 +17,14 @@ exports.errorHandler = (err, req, res, next) => {
         stackTrace: err.stack,
       });
       break;
+
+    case 401:
+      res.status(statusCode).json({
+        status: "fail",
+        title: "unauthorized",
+        message: "you are not authorized",
+        stackTrace: err.stack,
+      });
+      break;
   }
 };
