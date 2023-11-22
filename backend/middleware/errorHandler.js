@@ -8,5 +8,14 @@ exports.errorHandler = (err, req, res, next) => {
         message: err.message,
         stackTrace: err.stack,
       });
+      break;
+    case 400:
+      res.status(statusCode).json({
+        status: "fail",
+        title: "validation error",
+        message: "Validation failed",
+        stackTrace: err.stack,
+      });
+      break;
   }
 };
