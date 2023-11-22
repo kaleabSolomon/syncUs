@@ -3,10 +3,11 @@ const helmet = require("helmet");
 const dotenv = require("dotenv").config();
 
 const connectDB = require("./config/connectDb");
+const userRoutes = require("./routes/userRoutes");
 connectDB();
 
 const app = express();
-app.use(helmet);
+app.use(helmet());
 
 app.use(
   express.json({
