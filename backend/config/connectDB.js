@@ -6,7 +6,7 @@ const connectDB = async () => {
       "<password>",
       process.env.DATABASE_PASSWORD
     );
-    const connect = await mongoose.connect(DB);
+    await mongoose.connect(DB);
     console.log("Connected to database");
   } catch (err) {
     console.log(err);
