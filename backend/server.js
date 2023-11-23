@@ -15,13 +15,14 @@ app.use(
     limit: "10kb",
   })
 );
+app.use("/api/v1/users", userRoutes);
+app.use(errorHandler);
 process.on("uncaughtException", (err) => {
   console.log("uncaught Exception");
   console.log(err.name, err.message);
   process.exit(1);
 });
-app.use("/api/v1/users", userRoutes);
-app.use(errorHandler);
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log("server listening on port " + port);

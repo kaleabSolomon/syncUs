@@ -3,19 +3,19 @@ const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
   name: {
-    type: string,
+    type: String,
     required: [true, "A name is required"],
   },
   email: {
-    type: string,
+    type: String,
     required: [true, "An email is required"],
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, ["please enter a valid email"]],
   },
-  profileImage: string,
+  profileImage: String,
   role: {
-    type: string,
+    type: String,
     enum: {
       values: ["user", "admin"],
       message: "you can only have a role of user or admin",
@@ -23,13 +23,13 @@ const userSchema = new mongoose.Schema({
     default: "user",
   },
   password: {
-    type: string,
+    type: String,
     minLength: 6,
     required: [true, "Password is mandatory"],
     select: false,
   },
   passwordConfirmation: {
-    type: string,
+    type: String,
     required: [true, "password confirmation is mandatory"],
     validate: {
       validator: function (el) {
