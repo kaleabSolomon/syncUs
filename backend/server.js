@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 
 const connectDB = require("./config/connectDb");
 const userRoutes = require("./routes/userRoutes");
+const errorHandler = require("./middleware/errorHandler");
 connectDB();
 
 const app = express();
@@ -20,7 +21,7 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 app.use("/api/v1/users", userRoutes);
-
+app.use(errorHandler);
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log("server listening on port " + port);
