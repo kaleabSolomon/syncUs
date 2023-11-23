@@ -12,8 +12,23 @@ exports.signUp = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User already exists");
   }
-  res.status(201).json({
-    status: "success",
-    message: "user created",
-  });
+
+  try {
+    const newUser = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirmation: req.body.passwordConfirmation,
+      profileImage: req.body.profileImage,
+      role: req.body.role,
+    });
+    res.status(201).json({
+      status: "success",
+      name: newUser.name,
+      _id: newUser.id,
+    });
+  } catch (err) {
+    res.status(400);
+    throw new Error(err.message);
+  }
 });
