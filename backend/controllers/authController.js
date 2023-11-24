@@ -7,10 +7,28 @@ const signToken = (id) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
+const sendCookie = (user, statusCode, res) => {
+  const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
 
+  res.cookie("jwt", token, cookieOptions);
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    data: {
+      id: user._id,
+      name: user.name,
+    },
+  });
+};
 exports.signUp = asyncHandler(async (req, res) => {
-  const { name, password, email } = req.body;
-  if (!name || !password || !email) {
+  const { name, password, email, passwordConfirmation } = req.body;
+  if (!name || !password || !passwordConfirmation || !email) {
     res.status(400);
     throw new Error("all fields are required");
   }
@@ -29,13 +47,8 @@ exports.signUp = asyncHandler(async (req, res) => {
       profileImage: req.body.profileImage,
       role: req.body.role,
     });
-    const token = signToken(newUser._id);
-    res.status(201).json({
-      status: "success",
-      name: newUser.name,
-      _id: newUser.id,
-      token,
-    });
+
+    sendCookie(newUser, 201, res);
   } catch (err) {
     res.status(400);
     throw new Error(err.message);
