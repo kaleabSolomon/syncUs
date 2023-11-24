@@ -22,7 +22,7 @@ const sendCookie = (user, statusCode, res) => {
     token,
     data: {
       id: user._id,
-      name: user.name,
+      email: user.email,
     },
   });
 };
