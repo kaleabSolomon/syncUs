@@ -61,4 +61,11 @@ const login = asyncHandler(async (req, res) => {
     res.status(40);
     throw new Error("email and password are required");
   }
+
+  const user = await User.findOne({ email: email }).select("+password");
+
+  if (!user || (await user.comparePassword(password, user.password))) {
+    res.status(401);
+    throw new Error("email or password are incorrect");
+  }
 });
