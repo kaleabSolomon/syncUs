@@ -68,4 +68,6 @@ const login = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("email or password are incorrect");
   }
+
+  sendCookie(user, 200, res);
 });
