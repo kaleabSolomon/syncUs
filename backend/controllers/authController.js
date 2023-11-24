@@ -70,3 +70,10 @@ exports.login = asyncHandler(async (req, res) => {
 
   sendCookie(user, 200, res);
 });
+
+exports.logOut = (req, res) => {
+  res.cookie("jwt", "", { expires: new Date(Date.now() + 1) });
+  res.status(200).json({
+    status: "success",
+  });
+};
