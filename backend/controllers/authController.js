@@ -54,8 +54,7 @@ exports.signUp = asyncHandler(async (req, res) => {
     throw new Error(err.message);
   }
 });
-
-const login = asyncHandler(async (req, res) => {
+exports.login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     res.status(40);
