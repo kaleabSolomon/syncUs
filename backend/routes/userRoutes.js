@@ -13,5 +13,10 @@ router
     authController.verifyToken,
     authController.restrictAccess("admin"),
     userController.getAllUsers
+  )
+  .post(
+    authController.verifyToken,
+    authController.restrictAccess("admin"),
+    userController.createUser
   );
 module.exports = router;
