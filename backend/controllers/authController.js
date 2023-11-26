@@ -88,7 +88,7 @@ exports.verifyToken = asyncHandler(async (req, res, next) => {
   ) {
     token = await req.headers.authorization.split(" ")[1];
   }
-  // if user is not logged in, return and error
+  // if user is not logged in, return error
   if (!token) {
     res.status(401);
     throw new Error("You are not logged in");
@@ -106,3 +106,12 @@ exports.verifyToken = asyncHandler(async (req, res, next) => {
   req.user = currentUser;
   next();
 });
+
+exports.restrictAccess = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      res.status(403);
+      throw new Error("You do not have permission to access this action");
+    }
+  };
+};
