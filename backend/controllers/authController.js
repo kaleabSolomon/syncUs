@@ -77,3 +77,15 @@ exports.logOut = (req, res) => {
     status: "success",
   });
 };
+
+exports.verifyToken = asyncHandler(async (req, res, next) => {
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = await req.headers.authorization.split(" ")[1];
+  }
+  console.log(token);
+  next();
+});
