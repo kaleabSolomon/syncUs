@@ -96,6 +96,13 @@ exports.verifyToken = asyncHandler(async (req, res, next) => {
 
   // validate the token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  const currentUser = await User.findById(decoded.id);
 
+  if (!currentUser) {
+    res.status(401);
+    throw new Error("user belonging to this token does not exist");
+  }
+
+  req.user = currentUser;
   next();
 });
