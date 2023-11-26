@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const { promisify } = require("util");
 const User = require("../models/userModel");
 
 const signToken = (id) => {
@@ -80,12 +81,21 @@ exports.logOut = (req, res) => {
 
 exports.verifyToken = asyncHandler(async (req, res, next) => {
   let token;
+  // check if token exists(if user is logged in)
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = await req.headers.authorization.split(" ")[1];
   }
-  console.log(token);
+  // if user is not logged in, return and error
+  if (!token) {
+    res.status(401);
+    throw new Error("You are not logged in");
+  }
+
+  // validate the token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
   next();
 });
