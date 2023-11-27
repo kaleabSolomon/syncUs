@@ -4,6 +4,8 @@ const dotenv = require("dotenv").config();
 
 const connectDB = require("./config/connectDb");
 const userRoutes = require("./routes/userRoutes");
+const contactRoutes = require("./routes/contactRoutes");
+
 const errorHandler = require("./middleware/errorHandler");
 connectDB();
 
@@ -16,6 +18,7 @@ app.use(
   })
 );
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/contacts", contactRoutes);
 app.use(errorHandler);
 process.on("uncaughtException", (err) => {
   console.log("uncaught Exception");
