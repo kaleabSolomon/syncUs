@@ -19,4 +19,12 @@ router
     authController.restrictAccess("admin"),
     userController.createUser
   );
+
+router
+  .route("/:id")
+  .delete(
+    authController.verifyToken,
+    authController.restrictAccess("admin"),
+    userController.deleteUser
+  );
 module.exports = router;

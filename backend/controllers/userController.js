@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 
-exports.getAllUsers = asyncHandler(async (req, res, next) => {
+exports.getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
 
   res.status(200).json({
@@ -13,7 +13,7 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.createUser = asyncHandler(async (req, res, next) => {
+exports.createUser = asyncHandler(async (req, res) => {
   const { name, password, email, passwordConfirmation } = req.body;
   if (!name || !password || !passwordConfirmation || !email) {
     res.status(400);
@@ -30,5 +30,17 @@ exports.createUser = asyncHandler(async (req, res, next) => {
     data: {
       newUser,
     },
+  });
+});
+
+exports.deleteUser = asyncHandler(async (req, res) => {
+  const deletedUser = await User.findByIdAndDelete(req.params.id);
+  if (!deletedUser) {
+    res.status(404);
+    throw new Error("user not found, invalid id given");
+  }
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });
