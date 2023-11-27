@@ -27,4 +27,12 @@ router
     authController.restrictAccess("admin"),
     userController.deleteUser
   );
+
+router
+  .route("/deleteMe")
+  .delete(
+    authController.verifyToken,
+    authController.restrictAccess("user"),
+    userController.deleteMyAccount
+  );
 module.exports = router;

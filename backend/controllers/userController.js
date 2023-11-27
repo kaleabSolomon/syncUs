@@ -44,3 +44,12 @@ exports.deleteUser = asyncHandler(async (req, res) => {
     data: null,
   });
 });
+
+exports.deleteMyAccount = asyncHandler(async (req, res) => {
+  await User.findByIdAndUpdate(req.user.id, { active: false });
+
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});
