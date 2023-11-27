@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
       message: "the password and password confirmation cannot be different",
     },
   },
+  status: {
+    type: String,
+    enum: ["active", "inactive"],
+    default: "active",
+  },
 });
 
 userSchema.pre("save", async function (next) {
