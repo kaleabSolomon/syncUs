@@ -47,22 +47,46 @@ exports.createContact = asyncHandler(async (req, res) => {
     },
   });
 });
+
 exports.updateContact = asyncHandler(async (req, res) => {
+  const contact = await Contact.findById(req.params.id);
+
+  if (!contact) {
+    res.status(404);
+    throw new Error("no contact with given id exists");
+  }
+  if (contact.user_id.toString() !== req.user.id) {
+    res.status(403);
+    throw new Error("user do not have permission to update contacts");
+  }
   const updatedContact = await Contact.findByIdAndUpdate(
     req.params.id,
     req.body,
     { new: true, runValidators: true }
   );
 
-  if (!updatedContact) {
-    res.status(404);
-    throw new Error("no tour with given id exists");
-  }
-
   res.status(200).json({
     status: "success",
     data: {
       updatedContact,
     },
+  });
+});
+exports.deleteContact = asyncHandler(async (req, res) => {
+  const contact = await Contact.findById(req.params.id);
+
+  if (!contact) {
+    res.status(404);
+    throw new Error("no contact with given id exists");
+  }
+  if (contact.user_id.toString() !== req.user.id) {
+    res.status(403);
+    throw new Error("user do not have permission to update contacts");
+  }
+  const updatedContact = await Contact.findByIdAndDelete(req.params.id);
+
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });

@@ -12,6 +12,6 @@ router
 router
   .route("/:id")
   .get(authController.verifyToken, contactController.getContact)
-  .patch(authController.verifyToken, contactController.getContact);
-
+  .patch(authController.verifyToken, contactController.getContact)
+  .delete(authController.verifyToken, contactController.deleteContact);
 module.exports = router;
