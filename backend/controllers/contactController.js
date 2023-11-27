@@ -47,3 +47,22 @@ exports.createContact = asyncHandler(async (req, res) => {
     },
   });
 });
+exports.updateContact = asyncHandler(async (req, res) => {
+  const updatedContact = await Contact.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedContact) {
+    res.status(404);
+    throw new Error("no tour with given id exists");
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      updatedContact,
+    },
+  });
+});
