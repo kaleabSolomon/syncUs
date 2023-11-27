@@ -22,6 +22,11 @@ router
 
 router
   .route("/:id")
+  .get(
+    authController.verifyToken,
+    authController.restrictAccess("admin"),
+    userController.getUser
+  )
   .delete(
     authController.verifyToken,
     authController.restrictAccess("admin"),

@@ -13,6 +13,18 @@ exports.getAllUsers = asyncHandler(async (req, res) => {
   });
 });
 
+exports.getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  res.status(200).json({
+    status: "success",
+
+    data: {
+      user,
+    },
+  });
+});
+
 exports.createUser = asyncHandler(async (req, res) => {
   const { name, password, email, passwordConfirmation } = req.body;
   if (!name || !password || !passwordConfirmation || !email) {
