@@ -46,7 +46,7 @@ exports.deleteUser = asyncHandler(async (req, res) => {
 });
 
 exports.deleteMyAccount = asyncHandler(async (req, res) => {
-  await User.findByIdAndUpdate(req.user.id, { active: false });
+  await User.findByIdAndUpdate(req.user._id, { active: false });
 
   res.status(204).json({
     status: "success",

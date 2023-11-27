@@ -63,6 +63,12 @@ exports.login = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findOne({ email: email }).select("+password");
+
+  if (user.status === "inactive") {
+    res.status(404);
+    throw new Error("User is inactive, you can not login");
+  }
+
   const passwordIsCorrect = await user.correctPassword(password, user.password);
   if (!user || !passwordIsCorrect) {
     res.status(401);
@@ -104,11 +110,13 @@ exports.verifyToken = asyncHandler(async (req, res, next) => {
   }
 
   req.user = currentUser;
+  console.log(req.user);
   next();
 });
-
+// solve always admin problem
 exports.restrictAccess = (...roles) => {
   return (req, res, next) => {
+    console.log(req.user.id, roles);
     if (!roles.includes(req.user.role)) {
       res.status(403);
       throw new Error("You do not have permission to access this action");
