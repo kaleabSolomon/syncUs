@@ -6,7 +6,8 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(authController.verifyToken, contactController.getAllContacts);
+  .get(authController.verifyToken, contactController.getAllContacts)
+  .post(authController.verifyToken, contactController.createContact);
 
 router
   .route("/:id")

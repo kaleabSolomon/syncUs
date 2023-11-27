@@ -25,3 +25,25 @@ exports.getContact = asyncHandler(async (req, res) => {
     },
   });
 });
+exports.createContact = asyncHandler(async (req, res) => {
+  const { name, phone } = req.body;
+  if (!name || !phone) {
+    res.status(400);
+    throw new Error("name and phone are mandatory.");
+  }
+
+  const contact = await Contact.create({
+    name,
+    phone,
+    address: req.body.address,
+    relationship: req.body.relationship,
+    user_id: req.user.id,
+  });
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      contact,
+    },
+  });
+});
