@@ -8,4 +8,7 @@ router
   .route("/")
   .get(authController.verifyToken, contactController.getAllContacts);
 
+router
+  .route("/:id")
+  .get(authController.verifyToken, contactController.getContact);
 module.exports = router;

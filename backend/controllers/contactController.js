@@ -12,3 +12,16 @@ exports.getAllContacts = asyncHandler(async (req, res) => {
     },
   });
 });
+exports.getContact = asyncHandler(async (req, res) => {
+  const contact = await Contact.find({
+    user_id: req.user.id,
+    _id: req.params.id,
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      contact,
+    },
+  });
+});
